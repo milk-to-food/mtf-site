@@ -1,0 +1,366 @@
+<!DOCTYPE html><html lang="en"><head>
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MilkToFood — Software made with care.</title>
+  <meta name="description" content="MilkToFood is an independent software studio building consumer-facing web products.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@300;400&amp;display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Tokens ───────────────────────────────────────────── */
+    :root {
+      --bg:        oklch(97% 0.008 75);
+      --bg-card:   oklch(94% 0.010 75);
+      --ink:       oklch(18% 0.012 260);
+      --ink-mid:   oklch(42% 0.010 260);
+      --ink-muted: oklch(60% 0.008 260);
+      --accent:    oklch(52% 0.09 185);
+      --accent-dim:oklch(52% 0.05 185);
+      --rule:      oklch(88% 0.008 75);
+
+      --serif: "Cormorant Garamond", Georgia, serif;
+      --mono:  "IBM Plex Mono", "Courier New", monospace;
+      --sans:  "IBM Plex Sans", system-ui, sans-serif;
+
+      --gap-xs: 0.5rem;
+      --gap-sm: 1rem;
+      --gap-md: 2rem;
+      --gap-lg: 4rem;
+      --gap-xl: 7rem;
+
+      --max: 680px;
+    }
+
+    /* ── Reset ────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ───────────────────────────────────────────── */
+    .container {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--gap-md);
+    }
+
+    /* ── Nav ──────────────────────────────────────────────── */
+    nav {
+      padding: var(--gap-md) 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    nav .container {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: var(--gap-md);
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--ink-muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── Hero ─────────────────────────────────────────────── */
+    #hero {
+      padding: var(--gap-xl) 0 var(--gap-xl);
+    }
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: var(--gap-md);
+    }
+    .hero-name {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(3.5rem, 10vw, 6.5rem);
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: var(--gap-md);
+    }
+    .hero-tagline {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.3rem, 3vw, 1.7rem);
+      color: var(--ink-mid);
+      line-height: 1.5;
+      max-width: 480px;
+    }
+    .hero-sub {
+      margin-top: var(--gap-md);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-muted);
+    }
+
+    /* ── Section shared ───────────────────────────────────── */
+    section {
+      padding: var(--gap-xl) 0;
+      border-top: 1px solid var(--rule);
+    }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: var(--gap-lg);
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin-bottom: var(--gap-md);
+    }
+
+    /* ── Projects ─────────────────────────────────────────── */
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      padding: var(--gap-md) calc(var(--gap-md) * 1.5);
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.25s, background 0.25s;
+      position: relative;
+    }
+    .project-card::after {
+      content: "→";
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      color: var(--accent-dim);
+      position: absolute;
+      right: calc(var(--gap-md) * 1.5);
+      top: 50%;
+      transform: translateY(-50%);
+      transition: color 0.25s, transform 0.25s;
+    }
+    .project-card:hover {
+      border-color: var(--accent-dim);
+      background: oklch(96% 0.012 75);
+    }
+    .project-card:hover::after {
+      color: var(--accent);
+      transform: translateY(-50%) translateX(4px);
+    }
+    .project-meta {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: var(--gap-xs);
+    }
+    .project-name {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 1.6rem;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: var(--gap-xs);
+    }
+    .project-desc {
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      color: var(--ink-mid);
+      max-width: 380px;
+      padding-right: 2rem;
+    }
+    .project-url {
+      display: inline-block;
+      margin-top: var(--gap-sm);
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-muted);
+    }
+
+    /* ── About ────────────────────────────────────────────── */
+    #about .body-text {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      line-height: 1.75;
+      color: var(--ink-mid);
+      max-width: 560px;
+    }
+    #about .body-text p + p { margin-top: var(--gap-sm); }
+
+    /* ── Contact ──────────────────────────────────────────── */
+    #contact .contact-row {
+      display: flex;
+      align-items: baseline;
+      gap: var(--gap-md);
+      flex-wrap: wrap;
+    }
+    .contact-prompt {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      color: var(--ink-mid);
+    }
+    .contact-link {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-dim);
+      padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .contact-link:hover {
+      color: var(--ink);
+      border-color: var(--ink);
+    }
+
+    /* ── Footer ───────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: var(--gap-md) 0;
+    }
+    footer .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--gap-sm);
+    }
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-muted);
+    }
+    .footer-tagline {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+    }
+
+    /* ── Mobile ───────────────────────────────────────────── */
+    @media (max-width: 520px) {
+      :root { --gap-xl: 4.5rem; --gap-lg: 2.5rem; }
+      .nav-links { display: none; }
+      .project-card { padding: var(--gap-md); }
+      .project-card::after { display: none; }
+      #contact .contact-row { flex-direction: column; gap: var(--gap-sm); }
+    }
+
+    /* ── Fade-in on load ──────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow { animation: fadeUp 0.6s ease both 0.1s; }
+    .hero-name    { animation: fadeUp 0.7s ease both 0.2s; }
+    .hero-tagline { animation: fadeUp 0.7s ease both 0.35s; }
+    .hero-sub     { animation: fadeUp 0.7s ease both 0.5s; }
+  </style>
+</head>
+<body data-cc-id="cc-1" style="cursor: crosshair;">
+
+  <!-- Nav -->
+  <nav data-cc-id="cc-12">
+    <div class="container">
+      <a href="#hero" class="nav-logo" data-cc-id="cc-11" style="">Milk to Food</a>
+      <ul class="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact" data-cc-id="cc-13" style="">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero" style="border-top: none;">
+    <div class="container">
+      <p class="hero-eyebrow" data-cc-id="cc-7" style="">Christ-focused independent creators</p>
+      <h1 class="hero-name" data-cc-id="cc-6" style="">Milk to Food</h1>
+      <p class="hero-tagline" data-cc-id="cc-14" style="">Solid Food is for the Mature</p>
+      <p class="hero-sub" data-cc-id="cc-22" style="">Hebrews 5:11-14</p>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" data-cc-id="cc-23">
+    <div class="container">
+      <p class="section-label">Projects</p>
+      <a href="https://thoughtlot.com" class="project-card" target="_blank" rel="noopener noreferrer">
+        <p class="project-meta">Web App · In development</p>
+        <h2 class="project-name">ThoughtLot</h2>
+        <p class="project-desc">A new kind of thought-capture tool — coming soon.</p>
+        <span class="project-url">thoughtlot.com</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" data-cc-id="cc-3">
+    <div class="container" data-cc-id="cc-17">
+      <p class="section-label">About</p>
+      <div class="body-text">
+        <p data-cc-id="cc-2" style="line-height: 1.75;"><span style="font-size: 21.6px; line-height: 1.75;" data-cc-id="cc-16">We seek to honor the Lord Jesus Christ and further His Kingdom on earth by providing growth-oriented resources to edify disciples across all degrees of spiritual maturity.</span></p>
+        <p data-cc-id="cc-5" style="font-family: &quot;Cormorant Garamond&quot;;">"About this we have much to say, and it is hard to explain, since you have become dull of hearing. For though by this time you ought to be teachers, you need someone to teach you again the basic principles of the oracles of God. You need milk, not solid food, for everyone who lives on milk is unskilled in the word of righteousness, since he is a child. But <b style="font-family: &quot;Cormorant Garamond&quot;;" data-cc-id="cc-18"><b>solid food is for the mature</b></b>, for those who have their powers of discernment trained by constant practice to distinguish good from evil"<br>~ Hebrews 5:11-14 ESV</p>
+        <p data-cc-id="cc-8" style=""><br></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" data-cc-id="cc-20">
+    <div class="container">
+      <p class="section-label">Contact</p>
+      <div class="contact-row">
+        <span class="contact-prompt" data-cc-id="cc-19" style="">Say hello</span>
+        <a href="/cdn-cgi/l/email-protection#177d767c72577a7e7b7c6378717878733974787a" class="contact-link"><span class="__cf_email__" data-cfemail="a4cec5cfc1e4c9cdc8cfd0cbc2cbcbc08ac7cbc9">[email&#160;protected]</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer data-cc-id="cc-21">
+    <div class="container">
+      <span class="footer-copy" data-cc-id="cc-9" style="">© 2026 Milk to Food</span>
+      <span class="footer-tagline" data-cc-id="cc-10" style="">Solid Food is for the Mature</span>
+    </div>
+  </footer>
+
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body></html>
