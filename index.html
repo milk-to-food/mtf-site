@@ -3,7 +3,7 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Milk to Food</title>
+  <title>MilkToFood — Software made with care.</title>
   <meta name="description" content="MilkToFood is an independent software studio building consumer-facing web products.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -221,32 +221,89 @@
     #about .body-text p + p { margin-top: var(--gap-sm); }
 
     /* ── Contact ──────────────────────────────────────────── */
-    #contact .contact-row {
-      display: flex;
-      align-items: baseline;
-      gap: var(--gap-md);
-      flex-wrap: wrap;
-    }
-    .contact-prompt {
+    .contact-intro {
       font-family: var(--serif);
       font-style: italic;
       font-size: clamp(1.3rem, 3vw, 1.8rem);
       color: var(--ink-mid);
+      margin-bottom: var(--gap-md);
     }
-    .contact-link {
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap-sm);
+      max-width: 480px;
+    }
+    .contact-form label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .form-label-text {
       font-family: var(--mono);
-      font-size: 0.85rem;
-      letter-spacing: 0.04em;
-      color: var(--accent);
-      text-decoration: none;
-      border-bottom: 1px solid var(--accent-dim);
-      padding-bottom: 1px;
-      transition: color 0.2s, border-color 0.2s;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
     }
-    .contact-link:hover {
+    .contact-form input,
+    .contact-form textarea {
+      background: transparent;
+      border: 1px solid var(--rule);
+      border-radius: 0;
+      padding: 0.65rem 0.75rem;
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      font-weight: 300;
       color: var(--ink);
-      border-color: var(--ink);
+      width: 100%;
+      transition: border-color 0.2s;
+      outline: none;
+      -webkit-appearance: none;
     }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: var(--ink-muted);
+      opacity: 0.6;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--accent-dim);
+    }
+    .contact-form textarea {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.6;
+    }
+    .contact-submit {
+      align-self: flex-start;
+      background: transparent;
+      border: 1px solid var(--ink);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.5rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .contact-submit:hover {
+      background: var(--ink);
+      color: var(--bg);
+    }
+    .contact-submit:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .form-status {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      min-height: 1.2em;
+    }
+    .form-status.error { color: oklch(52% 0.12 25); }
 
     /* ── Footer ───────────────────────────────────────────── */
     footer {
@@ -343,13 +400,31 @@
   </section>
 
   <!-- Contact -->
-  <section id="contact" data-cc-id="cc-20">
+  <section id="contact">
     <div class="container">
       <p class="section-label">Contact</p>
-      <div class="contact-row">
-        <span class="contact-prompt" data-cc-id="cc-19" style="">Say hello</span>
-        <a href="/cdn-cgi/l/email-protection#177d767c72577a7e7b7c6378717878733974787a" class="contact-link"><span class="__cf_email__" data-cfemail="a4cec5cfc1e4c9cdc8cfd0cbc2cbcbc08ac7cbc9">[email&#160;protected]</span></a>
-      </div>
+      <p class="contact-intro">Say hello.</p>
+      <form
+        class="contact-form"
+        id="contact-form"
+        action="https://formspree.io/f/YOUR_FORM_ID"
+        method="POST"
+      >
+        <label>
+          <span class="form-label-text">Name</span>
+          <input type="text" name="name" placeholder="Your name" required />
+        </label>
+        <label>
+          <span class="form-label-text">Email</span>
+          <input type="email" name="email" placeholder="your@email.com" required />
+        </label>
+        <label>
+          <span class="form-label-text">Message</span>
+          <textarea name="message" placeholder="What's on your mind?" required></textarea>
+        </label>
+        <button type="submit" class="contact-submit">Send message</button>
+        <p class="form-status" id="form-status" aria-live="polite"></p>
+      </form>
     </div>
   </section>
 
@@ -361,6 +436,36 @@
     </div>
   </footer>
 
-
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body></html>
+  <script>
+    const form = document.getElementById('contact-form');
+    const status = document.getElementById('form-status');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('.contact-submit');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      status.textContent = '';
+      status.className = 'form-status';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          status.textContent = 'Message sent — thank you.';
+          form.reset();
+        } else {
+          const data = await res.json();
+          throw new Error(data.error || 'Something went wrong.');
+        }
+      } catch (err) {
+        status.textContent = err.message;
+        status.className = 'form-status error';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send message';
+      }
+    });
+  </script>
+</body></html>
